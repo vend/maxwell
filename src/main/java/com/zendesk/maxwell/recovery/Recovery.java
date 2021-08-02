@@ -12,13 +12,14 @@ import com.zendesk.maxwell.replication.Position;
 import com.zendesk.maxwell.replication.Replicator;
 import com.zendesk.maxwell.row.HeartbeatRowMap;
 import com.zendesk.maxwell.row.RowMap;
+import com.zendesk.maxwell.util.ConnectionPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import snaq.db.ConnectionPool;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +59,7 @@ public class Recovery {
 			Position position = Position.valueOf(binlogPosition, recoveryInfo.getHeartbeat());
 			Metrics metrics = new NoOpMetrics();
 
-			LOGGER.debug("scanning binlog: " + binlogPosition);
+			LOGGER.debug("scanning binlog: {}", binlogPosition);
 			Replicator replicator = new BinlogConnectorReplicator(
 					this.schemaStore,
 					null,
@@ -113,8 +114,9 @@ public class Recovery {
 
 	private List<BinlogPosition> getBinlogInfo() throws SQLException {
 		ArrayList<BinlogPosition> list = new ArrayList<>();
-		try ( Connection c = replicationConnectionPool.getConnection() ) {
-			ResultSet rs = c.createStatement().executeQuery("SHOW BINARY LOGS");
+		try ( Connection c = replicationConnectionPool.getConnection() ;
+		      Statement s = c.createStatement();
+		      ResultSet rs = s.executeQuery("SHOW BINARY LOGS") ) {
 			while ( rs.next() ) {
 				list.add(BinlogPosition.at(4, rs.getString("Log_name")));
 			}

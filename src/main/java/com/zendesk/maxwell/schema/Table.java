@@ -129,6 +129,7 @@ public class Table {
 									  + " vs "
 									  + other.getType()
 									  + " in " + nameB);
+					return;
 				} else if ( column.getPos() != other.getPos() ) {
 					diffs.add(colName + "has a position mismatch, "
 									  + column.getPos()
@@ -141,7 +142,7 @@ public class Table {
 					EnumeratedColumnDef enumA, enumB;
 					enumA = (EnumeratedColumnDef) column;
 					enumB = (EnumeratedColumnDef) other;
-					if ( !Arrays.deepEquals(enumA.getEnumValues(), enumB.getEnumValues()) ) {
+					if ( !enumA.getEnumValues().equals(enumB.getEnumValues()) ) {
 						diffs.add(colName + "has an enum value mismatch, "
 								+ StringUtils.join(enumA.getEnumValues(), ",")
 								+ " vs "
@@ -222,8 +223,10 @@ public class Table {
 	}
 
 	public void setDefaultColumnCharsets() {
+		String newCharset = this.getCharset();
 		for ( StringColumnDef c : getStringColumns() ) {
-			c.setDefaultCharset(this.getCharset());
+			int index = c.getPos();
+			columns.replace(index, c.withDefaultCharset(newCharset));
 		}
 	}
 
@@ -242,10 +245,12 @@ public class Table {
 	}
 
 	public void renameColumn(int idx, String name) throws InvalidSchemaError {
-		ColumnDef column = columns.get(idx).clone();
-		column.setName(name);
-		columns.remove(idx);
-		columns.add(idx, column);
+		ColumnDef column = columns.get(idx).withName(name);
+		columns.replace(idx, column);
+	}
+
+	public void replaceColumn(int idx, ColumnDef definition) throws InvalidSchemaError {
+		columns.replace(idx, definition);
 	}
 
 	public void changeColumn(int idx, ColumnPosition position, ColumnDef definition, List<DeferredPositionUpdate> deferred) throws InvalidSchemaError {

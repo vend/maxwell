@@ -145,6 +145,19 @@ public class MysqlSavedSchemaTest extends MaxwellTestWithIsolatedServer {
 		c.createStatement().executeUpdate("alter table maxwell.positions drop column client_id");
 		c.createStatement().executeUpdate("alter table maxwell.positions drop column gtid_set");
 		c.createStatement().executeUpdate("alter table maxwell.schemas drop column gtid_set");
+		c.createStatement().executeUpdate("alter table `columns` " +
+				"modify id int unsigned NOT NULL AUTO_INCREMENT, " +
+				"modify schema_id int unsigned, " +
+				"modify table_id int unsigned");
+		c.createStatement().executeUpdate("alter table `tables` " +
+				"modify id int unsigned NOT NULL AUTO_INCREMENT, " +
+				"modify schema_id int unsigned, " +
+				"modify database_id int unsigned");
+		c.createStatement().executeUpdate("alter table `databases` " +
+				"modify id int unsigned NOT NULL AUTO_INCREMENT, " +
+				"modify schema_id int unsigned");
+		c.createStatement().executeUpdate("alter table `schemas` modify id int unsigned NOT NULL AUTO_INCREMENT");
+		c.createStatement().executeUpdate("alter table `bootstrap` modify id int unsigned NOT NULL AUTO_INCREMENT");
 		SchemaStoreSchema.upgradeSchemaStoreSchema(c); // just verify no-crash.
 	}
 
@@ -157,7 +170,7 @@ public class MysqlSavedSchemaTest extends MaxwellTestWithIsolatedServer {
 		c.createStatement().executeUpdate("alter table `maxwell`.`columns` drop column column_length");
 		SchemaStoreSchema.upgradeSchemaStoreSchema(c); // just verify no-crash.
 
-		Schema schemaBefore = MysqlSavedSchema.restoreFromSchemaID(this.savedSchema, context).getSchema();
+		Schema schemaBefore = MysqlSavedSchema.restoreFromSchemaID(this.savedSchema.getSchemaID(), c, context.getCaseSensitivity()).getSchema();
 		DateTimeColumnDef cd1 = (DateTimeColumnDef) schemaBefore.findDatabase("shard_1").findTable("without_col_length").findColumn("badcol");
 
 		assertEquals((Long) 0L, (Long) cd1.getColumnLength());
@@ -173,7 +186,7 @@ public class MysqlSavedSchemaTest extends MaxwellTestWithIsolatedServer {
 		c.createStatement().executeUpdate("update maxwell.columns set column_length = NULL where name = 'badcol'");
 
 		SchemaStoreSchema.upgradeSchemaStoreSchema(c);
-		Schema schemaBefore = MysqlSavedSchema.restoreFromSchemaID(savedSchema, context).getSchema();
+		Schema schemaBefore = MysqlSavedSchema.restoreFromSchemaID(this.savedSchema.getSchemaID(), c, context.getCaseSensitivity()).getSchema();
 		DateTimeColumnDef cd1 = (DateTimeColumnDef) schemaBefore.findDatabase("shard_1").findTable("without_col_length").findColumn("badcol");
 		assertEquals((Long) 0L, (Long) cd1.getColumnLength());
 
