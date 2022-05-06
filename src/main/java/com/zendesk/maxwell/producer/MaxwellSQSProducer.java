@@ -26,7 +26,7 @@ public class MaxwellSQSProducer extends AbstractAsyncProducer {
 
 	@Override
 	public void sendAsync(RowMap r, CallbackCompleter cc) throws Exception {
-		String value = r.toJSON();
+		String value = r.toJSON(outputConfig);
 		SendMessageRequest messageRequest = new SendMessageRequest(queueUri, value);
 		if ( queueUri.endsWith(".fifo")) {
 			messageRequest.setMessageGroupId(r.getDatabase());
@@ -69,7 +69,8 @@ class SQSCallback implements AsyncHandler<SendMessageRequest, SendMessageResult>
 	@Override
 	public void onSuccess(SendMessageRequest request, SendMessageResult result) {
 		if (logger.isDebugEnabled()) {
-			logger.debug("-> Message id:" + result.getMessageId() + ", sequence number:" + result.getSequenceNumber()+"  "+json+"  "+position);
+			logger.debug("-> Message id:{}, sequence number:{}  {}  {}",
+					result.getMessageId(), result.getSequenceNumber(), json, position);
 		}
 		cc.markCompleted();
 	}
