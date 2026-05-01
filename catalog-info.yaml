@@ -19,6 +19,10 @@ metadata:
   annotations:
     datadoghq.com/service-name: maxwell-permissions-shard02
     github.com/project-slug: vend/maxwell
+    aws.amazon.com/ecs-service-arn: arn:aws:ecs:us-west-2:542640492856:service/core-consumer-production/maxwell-permissions-shard02-production
+  tags:
+  - daemon
+  - kafka-consumer
 spec:
   type: service
   lifecycle: production
@@ -32,6 +36,10 @@ metadata:
   annotations:
     datadoghq.com/service-name: maxwell-vend-group07
     github.com/project-slug: vend/maxwell
+    aws.amazon.com/ecs-service-arn: arn:aws:ecs:us-west-2:542640492856:service/core-consumer-production/maxwell-vend-group07-production
+  tags:
+  - daemon
+  - kafka-consumer
 spec:
   type: service
   lifecycle: production
@@ -45,6 +53,10 @@ metadata:
   annotations:
     datadoghq.com/service-name: maxwell-clocky
     github.com/project-slug: vend/maxwell
+    aws.amazon.com/ecs-service-arn: arn:aws:ecs:us-west-2:542640492856:service/core-consumer-production/maxwell-clocky-production
+  tags:
+  - daemon
+  - kafka-consumer
 spec:
   type: service
   lifecycle: production
@@ -58,6 +70,10 @@ metadata:
   annotations:
     datadoghq.com/service-name: maxwell-permissions-shard03
     github.com/project-slug: vend/maxwell
+    aws.amazon.com/ecs-service-arn: arn:aws:ecs:us-west-2:542640492856:service/core-consumer-production/maxwell-permissions-shard03-production
+  tags:
+  - daemon
+  - kafka-consumer
 spec:
   type: service
   lifecycle: production
@@ -71,6 +87,10 @@ metadata:
   annotations:
     datadoghq.com/service-name: maxwell-permissions-shard04
     github.com/project-slug: vend/maxwell
+    aws.amazon.com/ecs-service-arn: arn:aws:ecs:us-west-2:542640492856:service/core-consumer-production/maxwell-permissions-shard04-production
+  tags:
+  - daemon
+  - kafka-consumer
 spec:
   type: service
   lifecycle: production
@@ -84,6 +104,10 @@ metadata:
   annotations:
     datadoghq.com/service-name: maxwell-jaws
     github.com/project-slug: vend/maxwell
+    aws.amazon.com/ecs-service-arn: arn:aws:ecs:us-west-2:542640492856:service/core-consumer-production/maxwell-jaws-production
+  tags:
+  - daemon
+  - kafka-consumer
 spec:
   type: service
   lifecycle: production
