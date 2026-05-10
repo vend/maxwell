@@ -22,7 +22,7 @@ metadata:
     aws.amazon.com/ecs-service-arn: arn:aws:ecs:us-west-2:542640492856:service/core-consumer-production/maxwell-permissions-shard02-production
   tags:
   - daemon
-  - kafka-consumer
+  - maxwell
 spec:
   type: service
   lifecycle: production
@@ -39,7 +39,7 @@ metadata:
     aws.amazon.com/ecs-service-arn: arn:aws:ecs:us-west-2:542640492856:service/core-consumer-production/maxwell-vend-group07-production
   tags:
   - daemon
-  - kafka-consumer
+  - maxwell
 spec:
   type: service
   lifecycle: production
@@ -56,7 +56,7 @@ metadata:
     aws.amazon.com/ecs-service-arn: arn:aws:ecs:us-west-2:542640492856:service/core-consumer-production/maxwell-clocky-production
   tags:
   - daemon
-  - kafka-consumer
+  - maxwell
 spec:
   type: service
   lifecycle: production
@@ -73,7 +73,7 @@ metadata:
     aws.amazon.com/ecs-service-arn: arn:aws:ecs:us-west-2:542640492856:service/core-consumer-production/maxwell-permissions-shard03-production
   tags:
   - daemon
-  - kafka-consumer
+  - maxwell
 spec:
   type: service
   lifecycle: production
@@ -90,7 +90,7 @@ metadata:
     aws.amazon.com/ecs-service-arn: arn:aws:ecs:us-west-2:542640492856:service/core-consumer-production/maxwell-permissions-shard04-production
   tags:
   - daemon
-  - kafka-consumer
+  - maxwell
 spec:
   type: service
   lifecycle: production
@@ -107,7 +107,7 @@ metadata:
     aws.amazon.com/ecs-service-arn: arn:aws:ecs:us-west-2:542640492856:service/core-consumer-production/maxwell-jaws-production
   tags:
   - daemon
-  - kafka-consumer
+  - maxwell
 spec:
   type: service
   lifecycle: production
