@@ -1,0 +1,13 @@
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: maxwell-hustle
+  annotations:
+    datadoghq.com/service-name: maxwell-hustle
+    github.com/project-slug: vend/maxwell
+spec:
+  type: service
+  lifecycle: production
+  owner: fulfillment
+  system: maxwell
